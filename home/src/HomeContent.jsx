@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import { getProducts, currency } from "./products";
+import { addToCart, useLoggedIn } from "cart/cart";
 
 export default function HomeContent() {
+  const loggedIn = useLoggedIn();
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
@@ -28,6 +30,17 @@ export default function HomeContent() {
               {product.description}
             </div>
             <div>{currency.format(product.price)}</div>
+            {loggedIn && (
+              <div className="text-right mt-2">
+                <button
+                  className="bg-blue-500 text-white text-sm p-2 hover:bg-blue-700 rounded-md"
+                  onClick={() => addToCart(product.id)}
+                  id={`addtocart_${product.id}`}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            )}
           </a>
         ))}
     </div>
